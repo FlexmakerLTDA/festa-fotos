@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partilhe as suas Fotos | O Nosso Evento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Uploadcare Widget -->
+    <script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js" charset="utf-8"></script>
+    <style>
+        /* Personalização do botão do Widget para ficar moderno */
+        .uploadcare--widget__button_type_open {
+            background-color: #4f46e5 !important;
+            border-radius: 12px !important;
+            padding: 14px 28px !important;
+            font-weight: 600 !important;
+            font-size: 1.1rem !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+        }
+        .uploadcare--widget__button_type_open:hover {
+            background-color: #4338ca !important;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+
+    <div class="glass-card max-w-md w-full rounded-[2.5rem] shadow-2xl p-8 md:p-12 text-center">
+        <!-- Ícone / Logo -->
+        <div class="mb-6 inline-flex items-center justify-center w-24 h-24 bg-indigo-100 text-indigo-600 rounded-3xl">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+        </div>
+
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-3">Memórias da Festa</h1>
+        <p class="text-gray-600 mb-8 font-medium">Capture momentos especiais e partilhe-os connosco para o nosso álbum digital!</p>
+
+        <div class="bg-indigo-50/50 border-2 border-dashed border-indigo-200 rounded-3xl p-10 transition-all hover:border-indigo-400 hover:bg-white">
+            <p class="text-sm text-gray-500 mb-6 uppercase tracking-wider font-bold">Enviar Fotos</p>
+            
+            <!-- Campo de Upload -->
+            <!-- IMPORTANTE: Substitua SUA_CHAVE_AQUI pela sua chave do Uploadcare -->
+            <input 
+                type="hidden" 
+                role="uploadcare-uploader" 
+                name="my_file"
+                data-public-key="SUA_CHAVE_AQUI" 
+                data-tabs="file camera" 
+                data-multiple="true"
+                data-preview-step="true"
+                data-clearable="true"
+                data-system-dialog="true"
+            />
+        </div>
+
+        <div id="status-message" class="mt-8 hidden animate-bounce">
+            <p class="text-green-600 font-bold flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                </svg>
+                Fotos enviadas com sucesso!
+            </p>
+        </div>
+
+        <footer class="mt-12 text-xs text-gray-400 font-medium">
+            &copy; 2024 • Feito com ❤️ para o nosso grande dia
+        </footer>
+    </div>
+
+    <script>
+        // Escuta quando os uploads terminam para mostrar uma mensagem amigável
+        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+        
+        widget.onUploadComplete(function(info) {
+            console.log('Upload concluído:', info);
+            document.getElementById('status-message').classList.remove('hidden');
+            
+            // Opcional: Limpar o widget após 8 segundos para novo upload
+            setTimeout(() => {
+                widget.value(null);
+                document.getElementById('status-message').classList.add('hidden');
+            }, 8000);
+        });
+
+        // Configurações globais do Widget em Português
+        UPLOADCARE_LOCALE = 'pt';
+        UPLOADCARE_LOCALE_TRANSLATIONS = {
+            buttons: {
+                choose: {
+                    files: {
+                        one: 'Escolher Foto',
+                        other: 'Escolher Fotos'
+                    }
+                }
+            }
+        };
+    </script>
+</body>
+</html>
