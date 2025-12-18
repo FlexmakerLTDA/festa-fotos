@@ -29,7 +29,6 @@
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.9);
-            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
@@ -53,12 +52,15 @@
             <p class="text-sm text-gray-500 mb-6 uppercase tracking-wider font-bold">Enviar Fotos</p>
             
             <!-- Campo de Upload -->
-            <!-- IMPORTANTE: Substitua SUA_CHAVE_AQUI pela sua chave do Uploadcare -->
+            <!-- 
+                 IMPORTANTE: Substitua SUA_CHAVE_AQUI pela sua Public Key do Uploadcare.
+                 Sem esta chave, verá o erro "Can't upload".
+            -->
             <input 
                 type="hidden" 
                 role="uploadcare-uploader" 
                 name="my_file"
-                data-public-key="SUA_CHAVE_AQUI" 
+                data-public-key="demopublickey" 
                 data-tabs="file camera" 
                 data-multiple="true"
                 data-preview-step="true"
@@ -77,26 +79,12 @@
         </div>
 
         <footer class="mt-12 text-xs text-gray-400 font-medium">
-            &copy; 2024 • Feito com ❤️ para o nosso grande dia
+            &copy; 2025 • Feito com ❤️ para o nosso grande dia
         </footer>
     </div>
 
     <script>
-        // Escuta quando os uploads terminam para mostrar uma mensagem amigável
-        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-        
-        widget.onUploadComplete(function(info) {
-            console.log('Upload concluído:', info);
-            document.getElementById('status-message').classList.remove('hidden');
-            
-            // Opcional: Limpar o widget após 8 segundos para novo upload
-            setTimeout(() => {
-                widget.value(null);
-                document.getElementById('status-message').classList.add('hidden');
-            }, 8000);
-        });
-
-        // Configurações globais do Widget em Português
+        // Configurações globais do Widget
         UPLOADCARE_LOCALE = 'pt';
         UPLOADCARE_LOCALE_TRANSLATIONS = {
             buttons: {
@@ -108,6 +96,18 @@
                 }
             }
         };
+
+        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+        
+        widget.onUploadComplete(function(info) {
+            console.log('Upload concluído:', info);
+            document.getElementById('status-message').classList.remove('hidden');
+            
+            setTimeout(() => {
+                widget.value(null);
+                document.getElementById('status-message').classList.add('hidden');
+            }, 8000);
+        });
     </script>
 </body>
 </html>
